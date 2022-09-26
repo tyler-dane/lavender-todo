@@ -1,9 +1,3 @@
-# 💻 NetSPI Full Stack Interview
-Welcome and thanks for interviewing with NetSPI! In this repository you will find a full stack todo list application. The `main` branch works and you can run it locally by cloning the repository, running `docker-compose up --build -d` and navigating to http://localhost:3000 in your browser.
-
-## Pull request
-To prepare for your interview, there is 1 open pull request in this repository. We ask that you treat that as any normal PR you would in your day to day work. Making sure the changes work, are well written, and suggesting any changs you think would fit. Please submit your feedback and any changes/commits for your PR 24 hours before your interview.
-
 ## Architecture
 ### Frontend
 The frontend is located underneath `/frontend` and is React with Typescript and TailwindCSS.

@@ -5,10 +5,12 @@ import com.netspi.interview.model.Item;
 public class ItemResponseDto {
     private Long id;
     private String name;
+    private String status;
 
     public ItemResponseDto(Item item) {
         this.id = item.getId();
         this.name = item.getName();
+        this.status = item.getStatus();
     }
 
     public Long getId() {
@@ -25,5 +27,13 @@ public class ItemResponseDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

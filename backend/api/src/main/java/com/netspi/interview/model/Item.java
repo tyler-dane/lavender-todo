@@ -11,6 +11,8 @@ public class Item {
 
     private String name;
 
+    private Status status;
+
     public String getName() {
         return name;
     }
@@ -25,5 +27,13 @@ public class Item {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getStatus() {
+        return status.getName();
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

@@ -1,11 +1,10 @@
 package com.netspi.interview.controller;
 
 import com.netspi.interview.controller.dto.request.CreateItemRequestDto;
+import com.netspi.interview.controller.dto.request.UpdateItemRequestDto;
 import com.netspi.interview.controller.dto.response.ItemResponseDto;
 import com.netspi.interview.model.Item;
-import com.netspi.interview.repository.ItemRepository;
 import com.netspi.interview.service.ItemService;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,12 +45,18 @@ public class ItemController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ItemResponseDto> getItemById(@PathVariable("id") Long id) {
-
         Item item = itemService.getItemById(id);
         if (item == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(new ItemResponseDto(item), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ItemResponseDto> updateItemById(@PathVariable("id") Long id,
+                                                          @RequestBody UpdateItemRequestDto updateItemRequestDto) {
+        Item item = itemService.updateItemById(id, updateItemRequestDto);
+        return new ResponseEntity<>(new ItemResponseDto(item), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     }
 
     @Transactional
