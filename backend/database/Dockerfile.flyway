@@ -1,0 +1,11 @@
+FROM flyway/flyway:8.4.2
+
+ARG POSTGRES_URL 
+ARG POSTGRES_USER 
+ARG POSTGRES_PASS 
+
+RUN echo "" >> /flyway/conf/flyway.conf
+RUN echo "flyway.url=$POSTGRES_URL" >> /flyway/conf/flyway.conf
+RUN echo "flyway.user=$POSTGRES_USER" >> /flyway/conf/flyway.conf
+RUN echo "flyway.password=$POSTGRES_PASS" >> /flyway/conf/flyway.conf
+COPY --chown=flyway:flyway ./sql /flyway/sql

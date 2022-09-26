@@ -1,0 +1,59 @@
+version: "3.8"
+
+services:
+  # Database services
+  postgres:
+    command: postgres
+    build:
+      context: ./backend/database
+      dockerfile: Dockerfile.postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 1s
+      retries: 10
+      start_period: 5s
+  flyway:
+    depends_on:
+      postgres:
+        condition: service_healthy
+    build:
+      context: ./backend/database
+      dockerfile: Dockerfile.flyway
+      args:
+        POSTGRES_USER: postgres
+        POSTGRES_PASS: password
+        POSTGRES_URL: "jdbc:postgresql://postgres:5432/postgres"
+    command: migrate -baselineOnMigrate=true -outOfOrder=true
+  frontend:
+      build:
+        context: ./frontend
+        dockerfile: Dockerfile
+      command: npm run dev
+      ports:
+        - "3000:3000"
+      volumes:
+        - ./frontend:/app
+        - /app/node_modules
+  api:
+    restart: on-failure
+    build:
+      context: ./backend/api
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - flyway
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASS=password
+      - POSTGRES_URL=jdbc:postgresql://postgres:5432/postgres
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
